@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LogService } from '../shared/log.service';
+import { LogLevel, LogService } from '../shared/log.service';
 
 @Component({
   selector: 'app-log-test',
@@ -7,6 +7,7 @@ import { LogService } from '../shared/log.service';
   styleUrls: ['./log-test.component.css']
 })
 export class LogTestComponent implements OnInit {
+  logWithDate: any;
 
   constructor(private logger: LogService) { }
 
@@ -14,6 +15,7 @@ export class LogTestComponent implements OnInit {
   }
 
   testLog(): void {
+    this.logger.level = LogLevel.All;
     this.logger.log(`Test the log() Method`);
   }
 
