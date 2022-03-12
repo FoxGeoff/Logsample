@@ -1,3 +1,4 @@
+import { mapToMapExpression } from '@angular/compiler/src/render3/util';
 import { Injectable } from '@angular/core';
 
 export enum LogLevel {
@@ -28,10 +29,11 @@ export class LogService {
     if (this.shouldLog(newLevel)) {
       let str = "";
       if (this.logWithDate) {
-        str = `${new Date()} -`;
+        str = `${new Date()} - `;
       }
 
-      str += `Type: ${LogLevel[newLevel]} - Message: ${JSON.stringify(msg)}`;
+      str += `Type: ${LogLevel[newLevel]} - Message: ${JSON.stringify(msg)} - Info: ${this.formatParams(params)}`;
+
       console.log(str);
 
     }
@@ -59,6 +61,20 @@ export class LogService {
 
   log(msg: any, ...optionalParams: any[]): void {
     this.writeToLog(msg, LogLevel.All, optionalParams);
+  }
+
+  private formatParams(params: any[]): string {
+
+    let str = "";
+
+    if(params.some(p => typeof p == `object`)) {
+      for (let item of params) {
+        return str += JSON.stringify(item) + ","
+      }
+    }
+
+    return params.join(`,`);
+
   }
 
 }
