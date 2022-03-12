@@ -24,7 +24,7 @@ export class LogService {
 
   }
 
-  private writeToLog(msg: string, newLevel: LogLevel): void {
+  private writeToLog(msg: string, newLevel: LogLevel, params: any[]): void {
     if (this.shouldLog(newLevel)) {
       let str = "";
       if (this.logWithDate) {
@@ -37,8 +37,28 @@ export class LogService {
     }
   }
 
-  log(msg: any): void {
-    this.writeToLog(msg, LogLevel.All);
+  debug(msg: string, ...optionalParams: any[]): void {
+    this.writeToLog(msg, LogLevel.Debug, optionalParams);
+  }
+
+  info(msg: string, ...optionalParams: any[]): void {
+    this.writeToLog(msg, LogLevel.Info, optionalParams);
+  }
+
+  warn(msg: string, ...optionalParams: any[]): void {
+    this.writeToLog(msg, LogLevel.Warn, optionalParams);
+  }
+
+  error(msg: string, ...optionalParams: any[]): void {
+    this.writeToLog(msg, LogLevel.Error, optionalParams);
+  }
+
+  fatal(msg: string, ...optionalParams: any[]): void {
+    this.writeToLog(msg, LogLevel.Fatal, optionalParams);
+  }
+
+  log(msg: any, ...optionalParams: any[]): void {
+    this.writeToLog(msg, LogLevel.All, optionalParams);
   }
 
 }
