@@ -4,6 +4,41 @@ import { Injectable } from '@angular/core';
 export enum LogLevel {
   All, Debug, Info, Warn, Error, Fatal, Off
 }
+export class LogEntry {
+  // Public properties
+  entryDate = new Date();
+  message = "";
+  level = LogLevel.Debug;
+  extraInfo: any[] = [];
+  logWithDate = true;
+
+  buildLogString(): string {
+    let str = "";
+    if (this.logWithDate) {
+      str = `${new Date()} - `;
+    }
+
+    str += `Type: ${LogLevel[this.level]} - Message: ${this.message} - Info: ${this.formatParams(this.extraInfo)}`;
+
+    return str;
+
+  }
+
+  private formatParams(params: any[]): string {
+
+    let str = "";
+
+    if (params.some(p => typeof p == `object`)) {
+      for (let item of params) {
+        return str += JSON.stringify(item) + ","
+      }
+    }
+
+    return params.join(`,`);
+
+  }
+
+}
 
 @Injectable({
   providedIn: 'root'
@@ -27,15 +62,15 @@ export class LogService {
 
   private writeToLog(msg: string, newLevel: LogLevel, params: any[]): void {
     if (this.shouldLog(newLevel)) {
-      let str = "";
-      if (this.logWithDate) {
-        str = `${new Date()} - `;
-      }
+      let entry = new LogEntry();
 
-      str += `Type: ${LogLevel[newLevel]} - Message: ${JSON.stringify(msg)} - Info: ${this.formatParams(params)}`;
+      entry.message = msg;
+      entry.level =  newLevel;
+      entry.extraInfo = params;
+      entry.logWithDate = this.logWithDate;
 
-      console.log(str);
-
+      // Log the values
+      console.log(entry.buildLogString());
     }
   }
 
@@ -67,7 +102,7 @@ export class LogService {
 
     let str = "";
 
-    if(params.some(p => typeof p == `object`)) {
+    if (params.some(p => typeof p == `object`)) {
       for (let item of params) {
         return str += JSON.stringify(item) + ","
       }
