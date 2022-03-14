@@ -1,5 +1,8 @@
 import { mapToMapExpression } from '@angular/compiler/src/render3/util';
 import { Injectable } from '@angular/core';
+import { Subscriber } from 'rxjs';
+import { LogPublisher } from './log-publishers';
+import { LogPublishersService } from './log-publishers.service';
 
 export enum LogLevel {
   All, Debug, Info, Warn, Error, Fatal, Off
@@ -47,8 +50,12 @@ export class LogService {
 
   level = LogLevel.All;
   logWithDate = true;
+  publishers: LogPublisher[] = [];
 
-  constructor() { }
+  constructor(private publishersService: LogPublishersService) {
+    //Set all the publishers to the local array
+    this, this.publishers = this.publishersService.publishers;
+  }
 
   private shouldLog(newLevel: LogLevel): boolean {
 
@@ -65,12 +72,14 @@ export class LogService {
       let entry = new LogEntry();
 
       entry.message = msg;
-      entry.level =  newLevel;
+      entry.level = newLevel;
       entry.extraInfo = params;
       entry.logWithDate = this.logWithDate;
 
-      // Log the values
-      console.log(entry.buildLogString());
+      // Log the value to all publishers
+      for (let logger of this.publishers) {
+        logger.log(entry).subscribe(response => console.log(response));
+      }
     }
   }
 

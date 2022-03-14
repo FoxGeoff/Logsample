@@ -1,14 +1,14 @@
 import { Observable, of } from "rxjs";
 import { LogEntry } from "./log.service";
 
-export abstract class LogPubisher {
+export abstract class LogPublisher {
   location: string | undefined;
 
   abstract log(record: LogEntry): Observable<boolean>;
   abstract clear(): Observable<boolean>;
 }
 
-export class LogConsole extends LogPubisher {
+export class LogConsole extends LogPublisher {
 
   log(record: LogEntry): Observable<boolean> {
     // Log to the console
