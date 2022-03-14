@@ -5,3 +5,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ## App. Map
 
 ![Map](/src/images/map-app.jpg)
+![Local Storage](/src/images/log-tolocal-storage.jpg)
