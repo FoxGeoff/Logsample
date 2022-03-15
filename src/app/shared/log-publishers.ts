@@ -36,7 +36,7 @@ export class LogLocalStorage extends LogPublisher {
 
   log(record: LogEntry): Observable<boolean> {
     let ret: boolean = false;
-    let values: LogEntry[];
+    let values: LogEntry[] = [];
 
     try {
       /**
@@ -44,10 +44,12 @@ export class LogLocalStorage extends LogPublisher {
        *
        * https://stackoverflow.com/questions/46915002/argument-of-type-string-null-is-not-assignable-to-parameter-of-type-string
        *
-       * USE: /values = JSON.parse(localStorage.getItem(this.location) || `{}`);
+       * USE: values = JSON.parse(localStorage.getItem(this.location) || `[]`);
+       * DO NOT USE: values = JSON.parse(localStorage.getItem(this.location)!);
+
        */
       // Gets any previous values from local storage
-      values = JSON.parse(localStorage.getItem(this.location)!);
+      values = JSON.parse(localStorage.getItem(this.location) || '[]');
       // Add new log entry to the array
       values.push(record);
       // Store the new array into local storage
