@@ -19,4 +19,8 @@ export class LogTestComponent implements OnInit {
     this.logger.debug(`Test the log() Method`, 'User::Geoff', `Method::testlog()`);
   }
 
+  clearLog(): void {
+    this.logger.clear();
+  }
+
 }

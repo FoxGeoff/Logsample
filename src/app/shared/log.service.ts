@@ -107,6 +107,12 @@ export class LogService {
     this.writeToLog(msg, LogLevel.All, optionalParams);
   }
 
+  clear(): void {
+    for (let logger of this.publishers) {
+      logger.clear();
+    }
+  }
+
   private formatParams(params: any[]): string {
 
     let str = "";
