@@ -35,15 +35,26 @@ export class LogLocalStorage extends LogPublisher {
   }
 
   log(record: LogEntry): Observable<boolean> {
-    let ret = false;
-    let values: LogEntry[] = [];
+    let ret: boolean = false;
+    let values: LogEntry[];
 
     try {
-      values = JSON.parse(localStorage.get(this.location)) || [];
-      // Add a new log entry to the array
+      /**
+       * NOTES ON UPDATED CODE
+       *
+       * https://stackoverflow.com/questions/46915002/argument-of-type-string-null-is-not-assignable-to-parameter-of-type-string
+       *
+       * USE: /values = JSON.parse(localStorage.getItem(this.location) || `{}`);
+       */
+      // Gets any previous values from local storage
+      values = JSON.parse(localStorage.getItem(this.location)!);
+      // Add new log entry to the array
       values.push(record);
-      // Store  the complete array into local storage
+      // Store the new array into local storage
       localStorage.setItem(this.location, JSON.stringify(values));
+
+      // Set return value
+      ret = true;
     }
     catch (ex) {
       console.log(ex);
@@ -52,6 +63,7 @@ export class LogLocalStorage extends LogPublisher {
     return of(ret);
 
   }
+
 
   clear(): Observable<boolean> {
     localStorage.removeItem(this.location);
