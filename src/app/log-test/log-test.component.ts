@@ -17,7 +17,7 @@ export class LogTestComponent implements OnInit {
 
   testLog(): void {
     this.logger.level = LogLevel.All;
-    this.logger.debug(`Test the log() Method`, 'User::Geoff', `Method::testlog()`);
+    this.logger.debug(`Test the log()`, `User::Geoff`, `Method::testlog()`);
   }
 
   objectLog(): void {
@@ -25,11 +25,12 @@ export class LogTestComponent implements OnInit {
 
     product.id = 100;
     product.date = new Date();
-    product.name = "sombreo grande";
+    product.name = "sombrero grande";
     product.price = 21.56;
-    product.url = "https://sombreos.com";
+    product.url = "https://sombreros.com";
 
-    this.logger.log(" A new product", product);
+    this.logger.log(`[A new product]
+     `, product);
   }
 
   clearLog(): void {

@@ -115,11 +115,11 @@ export class LogService {
 
   private formatParams(params: any[]): string {
 
-    let str = "";
+    let str = ``;
 
     if (params.some(p => typeof p == `object`)) {
       for (let item of params) {
-        return str += JSON.stringify(item) + ","
+        return str += JSON.stringify(`${item} ,`)
       }
     }
 

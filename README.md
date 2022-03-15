@@ -6,3 +6,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ![Map](/src/images/map-app.jpg)
 ![Local Storage](/src/images/log-tolocal-storage.jpg)
+![API Storage](/src/images/log-to-apil-storage.jpg)
